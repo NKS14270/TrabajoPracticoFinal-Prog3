@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="GlobalStyle.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+    <nav>
+                    <ul>
+                        <a href="../index.html">Inicio</a>
+                        <a href="./Criptos/index.html">Criptos</a>
+                        <a href="./Transacciones/index.html">asd</a>
+                        <a onclick="CerrarSesion()">Cerrar Sesion</a>
+                    </ul>
+            </nav> 
+        </header>
+<div id="ContenedorPagina">
+    
+    <div id="Info-Usuario">
+        <h3 id="Info-Nombre"></h3>
+        <div id="saldo">
+            <span >Saldo</span>
+            <div id="Info-Saldo"></div>
+        </div> 
+        <table>
+            <tr>
+                <th>CRIPTO</th>
+                <th>CANTIDAD</th>
+                <th>PRECIO TOTAL</th>
+            </tr>
+            <tbody id="Lista-Criptos">
+                <tr id="Lista-BTC">
+                    <td>Bitcoin (BTC)</td>
+                    <td>0 BTC</td>
+                    <td>$0 ARS</td>
+                </tr>
+                <tr id="Lista-ETH">
+                    <td>Ethereum (ETH)</td>
+                    <td>0 ETH</td>
+                    <td>$0 ARS</td>
+                </tr>
+            <tr id="Lista-LTC">
+                <td>Litecoin (LTC)</td>
+                <td>0 LTC</td>
+                <td>$0 ARS</td>
+            </tr>
+            <tr id="Lista-USDT">
+                <td>Tether usd (USDT)</td>
+                <td>0 USDT</td>
+                <td>$0 ARS</td>
+            </tr>
+            <tr id="Lista-USDC">
+                <td>Usd coin (USDT)</td>
+                <td>0 USDC</td>
+                <td>$0 ARS</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+<script src="scripts.js"></script>
+<script src="cerrarsesion.js"></script>
+</html>

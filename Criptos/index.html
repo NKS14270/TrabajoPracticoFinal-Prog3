@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criptos</title>
+    <link rel="stylesheet" href="../GlobalStyle.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+        <header>
+            <nav>
+                    <ul>
+                        <a href="../index.html">Inicio</a>
+                        <a href="./index.html">Criptos</a>
+                        <a onclick="CerrarSesion()">CerrarSesion</a>
+
+                    </ul>
+            </nav>
+        </header>
+<div id="ContenedorPagina">
+
+            <h1>Criptomonedas</h1>
+            <p>Selecciona una criptomoneda para ver su precio actual:</p>
+            <select name="" id="select-cripto" onchange="IniciarActualizacionPrecios(value)">
+                <option value="" disabled selected>Selecciona una criptomoneda</option>
+                <option value="BTC">BITCOIN (BTC)</option>
+                <option value="ETH">ETHEREUM (ETH)</option>
+                <option value="LTC">LITECOIN (LTC)</option>
+                <option value="USDT">TETHER USD (USDT)</option>
+                <option value="USDC">USD COIN (USDC)</option>
+            </select>
+        <table>
+            <tr>
+                <th>Exchange</th>
+                <th>Precio</th>
+                <th>Hora</th>
+            </tr>
+            <tbody id="infocriptos">
+            </tbody>
+        </table>
+</div>
+</body>
+<script src="scripts.js"></script>
+<script src="../cerrarsesion.js"></script>
+</html>
