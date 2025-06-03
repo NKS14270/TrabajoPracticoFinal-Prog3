@@ -64,52 +64,169 @@ namespace backend.Controllers
 
         }
 
-        public IActionResult RegistrarTransacciones(Historial transaccion, string User, bool venta)
+    public IActionResult RegistrarTransacciones([FromBody]Historial transaccion, bool venta)
         {
             if (transaccion == null || string.IsNullOrEmpty(transaccion.Cantidad.ToString()))
             {
                 return BadRequest("No se puede hacer una transaccion vacía.");
             }
-            if (User.Trim() == null || string.IsNullOrEmpty(User.Trim()))
-            {
-                return BadRequest("No se puede hacer una transaccion sin un usuario.");
-            }
             var usuariotransaccion = _context.Usuarios
-                .FirstOrDefault(u => u.Nombre == User);
+                .FirstOrDefault(u => u.Id == transaccion.UsuarioId);
             try
             {
                 if (venta)
                 {
-                    if (transaccion.Cantidad >= 0.000000000000001)
+
+                    if (venta)
                     {
-                        _context.Historiales.Add(transaccion);
-                        _context.SaveChanges();
+                        if (transaccion.Cantidad >= 0.000000000000001)
+                        {
+                            var saldoPrevioMoneda = _context.Historiales
+                                .Where(h => h.UsuarioId == usuariotransaccion.Id && h.MonedaId == transaccion.MonedaId)
+                                .Sum(h => h.Cantidad);
+
+                            var saldoPrevioARS = _context.Historiales
+                                .Where(h => h.UsuarioId == usuariotransaccion.Id && h.MonedaId == 6)
+                                .Sum(h => h.Cantidad);
+
+                            if (saldoPrevioMoneda < transaccion.Cantidad)
+                            {
+                                return BadRequest("No tienes suficiente saldo para realizar la venta.");
+                            }
+
+                            var transaccionVenta = new Historial
+                            {
+                                UsuarioId = usuariotransaccion.Id,
+                                MonedaId = transaccion.MonedaId,
+                                Cantidad = -transaccion.Cantidad,
+                                Fecha = DateTime.Now,
+                                Cotizacion = transaccion.Cotizacion
+                            };
+                            _context.Historiales.Add(transaccionVenta);
+
+                            var transaccionARS = new Historial
+                            {
+                                UsuarioId = usuariotransaccion.Id,
+                                MonedaId = 6,
+                                Cantidad = transaccion.Cotizacion,
+                                Fecha = DateTime.Now,
+                                Cotizacion = transaccion.Cotizacion
+                            };
+                            _context.Historiales.Add(transaccionARS);
+
+                            _context.SaveChanges();
+
+                            var saldoActualARS = _context.Historiales
+                                .Where(h => h.UsuarioId == usuariotransaccion.Id && h.MonedaId == 6)
+                                .Sum(h => h.Cantidad);
+
+                            return Ok(new { SaldoARS = saldoActualARS });
+                        }
+                        else
+                        {
+                            return BadRequest("La cantidad debe ser mayor a cero.");
+                        }
                     }
                 }
                 else
                 {
                     if (transaccion.Cantidad > 0.000000000000001)
                     {
-                        // Obtener el total previo del historial para este usuario y moneda
-                        var totalPrevio = _context.Historiales
+                        var saldoPrevioMoneda = _context.Historiales
                             .Where(h => h.UsuarioId == usuariotransaccion.Id && h.MonedaId == transaccion.MonedaId)
                             .Sum(h => h.Cantidad);
+                        var saldoPrevioARS = _context.Historiales
+                            .Where(h => h.UsuarioId == usuariotransaccion.Id && h.MonedaId == 6)
+                            .Sum(h => h.Cantidad);
 
-                        var wallet = _context.Wallets
-                            .FirstOrDefault(w => w.UsuarioId == usuariotransaccion.Id && w.MonedaId == transaccion.MonedaId);
-
-                        if (wallet == null || wallet.Cantidad < (decimal)transaccion.Cantidad)
+                        if (transaccion.MonedaId == 6)
                         {
-                            return BadRequest("No tienes suficiente saldo para realizar la compra.");
+                            if (saldoPrevioARS < transaccion.Cantidad)
+                            {
+                                return BadRequest("No tienes suficiente saldo en ARS para realizar la compra.");
+                            }
+                        }
+                        else
+                        {
+                            if (saldoPrevioARS < transaccion.Cotizacion)
+                            {
+                                return BadRequest("No tienes suficiente saldo en ARS para realizar la compra.");
+                            }
                         }
 
                         _context.Historiales.Add(transaccion);
 
-                        wallet.Cantidad -= (decimal)transaccion.Cantidad;
+                        if (transaccion.MonedaId != 6)
+                        {
+                            var movimientoARS = new Historial
+                            {
+                                UsuarioId = usuariotransaccion.Id,
+                                MonedaId = 6,
+                                Cantidad = -transaccion.Cotizacion,
+                                Fecha = DateTime.Now,
+                                Cotizacion = transaccion.Cotizacion
+                            };
+                            _context.Historiales.Add(movimientoARS);
+                        }
 
                         _context.SaveChanges();
+                        return Ok("Se ha vendido correctamente");
+                    }
+                    else
+                    {
+                        return BadRequest("La cantidad debe ser mayor a cero.");
+                    }
+                    if (transaccion.Cantidad > 0.000000000000001)
+                    {
+                        var saldoPrevioMoneda = _context.Historiales
+                            .Where(h => h.UsuarioId == usuariotransaccion.Id && h.MonedaId == transaccion.MonedaId)
+                            .Sum(h => h.Cantidad);
+                        var saldoPrevioARS = _context.Historiales
+                            .Where(h => h.UsuarioId == usuariotransaccion.Id && h.MonedaId == 6)
+                            .Sum(h => h.Cantidad);
 
-                        return Ok(new { TotalPrevio = totalPrevio });
+                        if (transaccion.MonedaId == 6)
+                        {
+                            if (saldoPrevioARS < transaccion.Cantidad)
+                            {
+                                return BadRequest("No tienes suficiente saldo en ARS para realizar la compra.");
+                            }
+                        }
+                        else
+                        {
+                            if (saldoPrevioARS < transaccion.Cotizacion)
+                            {
+                                return BadRequest("No tienes suficiente saldo en ARS para realizar la compra.");
+                            }
+                        }
+
+                        _context.Historiales.Add(transaccion);
+                        _context.SaveChanges();
+                        return Ok(new { SaldoPrevioMoneda = saldoPrevioMoneda, SaldoPrevioARS = saldoPrevioARS });
+
+                        var totalPrevio = _context.Historiales
+                            .Where(h => h.UsuarioId == usuariotransaccion.Id && h.MonedaId == transaccion.MonedaId)
+                            .Sum(h => h.Cantidad);
+
+                        if (transaccion.MonedaId == 6)
+                        {
+                            if (totalPrevio < transaccion.Cantidad)
+                            {
+                                return BadRequest("No tienes suficiente saldo en ARS para realizar la compra.");
+                            }
+                        }
+                        else
+                        {
+                            if (totalPrevio < transaccion.Cotizacion)
+                            {
+                                return BadRequest("No tienes suficiente saldo para realizar la compra.");
+                            }
+                        }
+
+                        _context.Historiales.Add(transaccion);
+                        _context.SaveChanges();
+
+                        return Ok("Compra realizada correctamente");
                     }
                     else
                     {
@@ -125,7 +242,28 @@ namespace backend.Controllers
             }
         }
 
+        public IActionResult AgregarARS(int idusuario)
+        {
+            Historial historial = new Historial();
+            historial.UsuarioId = idusuario;
+            historial.Cantidad = 10000000;
+            historial.Fecha = DateTime.Now;
+            historial.MonedaId = 6;
+            historial.Cotizacion = 10000000;
+
+            _context.Historiales.Add(historial);
+            _context.SaveChanges();
+            return Ok();
+        }
+
+
+
         [HttpGet]
+        public IActionResult Moneda(string abreviatura) {
+            var moneda = _context.Monedas
+                .FirstOrDefault(m => m.Abreviatura == abreviatura);
+            return Ok(moneda);
+        }
         public IActionResult DatosUsuario(string usuario)
         {
             if (string.IsNullOrWhiteSpace(usuario))
@@ -134,11 +272,20 @@ namespace backend.Controllers
             }
             try
             {
-                var datos = _context.Wallets
-                    .Include(u => u.Usuario)
-                    .Include(u => u.Moneda)
-                    .Where(u => u.Usuario.Nombre == usuario)
-                    .ToList();
+                var datos = _context.Historiales
+                        .Include(h => h.Moneda)
+                        .Include(h => h.Usuario)
+                        .Where(h => h.Usuario.Nombre == usuario)
+                        .GroupBy(h => new { h.MonedaId, h.Moneda.Nombre, h.Moneda.Abreviatura })
+                        .Select(g => new
+                        {
+                            MonedaId = g.Key.MonedaId,
+                            Nombre = g.Key.Nombre,
+                            Abreviatura = g.Key.Abreviatura,
+                            Total = g.Sum(h => h.Cantidad)
+                        })
+                        .ToList();
+
                 return Ok(datos);
             }
             catch (Exception ex)

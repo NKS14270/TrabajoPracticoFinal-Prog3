@@ -32,6 +32,7 @@ window.onload = async function () {
             .then(data => {
                 if (data) {
                     localStorage.setItem("Usuario", usuario);
+                    localStorage.setItem("id", data.id);
                     window.location.href = "../index.html";
                 } else {
                     throw new Error('Token no recibido. Por favor, intenta nuevamente.');
@@ -74,5 +75,6 @@ function RegistrarUsuario(){
                     return null;
                 }
                 alert ("Usuario Creado Correctamente")
+                
             })
         }

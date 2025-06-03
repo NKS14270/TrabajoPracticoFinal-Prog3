@@ -22,7 +22,6 @@ async function CargarPrecio(usuario) {
             const datos = await response.json();
             
             if (datos) {
-                
                 document.getElementById("Info-Nombre").innerHTML = `Bienvenido Nuevamente ${usuario}`;
                 
                 let TotalBTC = 0;
@@ -30,55 +29,61 @@ async function CargarPrecio(usuario) {
                 let TotalLTC = 0;
                 let TotalUSDT = 0;
                 let TotalUSDC = 0;
+                let TotalARS = 0;
                 for (const wallet of datos) {
                     if  (wallet.monedaId == 1){
-                            const precio = await CalcularPrecio(wallet.moneda.abreviatura);
-                            const subtotal = precio * wallet.cantidad;
-                            TotalBTC += subtotal;
-                            document.getElementById("Lista-BTC").innerHTML = `<td>${wallet.moneda.nombre} (${wallet.moneda.abreviatura})</td>
-                                                        <td>${wallet.cantidad} BTC</td>
+                            const precio = await CalcularPrecio(wallet.abreviatura);
+                            const subtotal = precio * wallet.total;
+                            TotalBTC = subtotal;
+                            document.getElementById("Lista-BTC").innerHTML = `<td>${wallet.nombre} (${wallet.abreviatura})</td>
+                                                        <td>${wallet.total} BTC</td>
                                                         <td>$${DarleFormatoNumeros(TotalBTC)} ARS</td>`;
                     }
                     if(wallet.monedaId == 2){
-                        const precio = await CalcularPrecio(wallet.moneda.abreviatura);
-                        const subtotal = precio * wallet.cantidad;
-                        TotalETH += subtotal;
-                        document.getElementById("Lista-ETH").innerHTML = `<td>${wallet.moneda.nombre} (${wallet.moneda.abreviatura})</td>
-                            <td>${wallet.cantidad} ETH</td>
-                            <td>$${DarleFormatoNumeros(TotalETH)} ARS</td>`
+                        const precio = await CalcularPrecio(wallet.abreviatura);
+                            const subtotal = precio * wallet.total;
+                            TotalETH = subtotal;
+                            document.getElementById("Lista-ETH").innerHTML = `<td>${wallet.nombre} (${wallet.abreviatura})</td>
+                                                        <td>${wallet.total} ETH</td>
+                                                        <td>$${DarleFormatoNumeros(TotalETH)} ARS</td>`;
                     }
                     if(wallet.monedaId == 3){
-                        const precio = await CalcularPrecio(wallet.moneda.abreviatura);
-                        const subtotal = precio * wallet.cantidad;
-                        TotalLTC += subtotal;
-                        document.getElementById("Lista-LTC").innerHTML = `<td>${wallet.moneda.nombre} (${wallet.moneda.abreviatura})</td>
-                        <td>${wallet.cantidad} LTC</td>
-                            <td>$${DarleFormatoNumeros(TotalLTC)} ARS</td>`
+                        const precio = await CalcularPrecio(wallet.abreviatura);
+                            const subtotal = precio * wallet.total;
+                            TotalLTC = subtotal;
+                            document.getElementById("Lista-LTC").innerHTML = `<td>${wallet.nombre} (${wallet.abreviatura})</td>
+                                                        <td>${wallet.total} LTC</td>
+                                                        <td>$${DarleFormatoNumeros(TotalLTC)} ARS</td>`;
                     }
                     if(wallet.monedaId == 4){
-                        const precio = await CalcularPrecio(wallet.moneda.abreviatura);
-                        const subtotal = precio * wallet.cantidad;
-                        TotalUSDT += subtotal;
-                        document.getElementById("Lista-USDT").innerHTML = `<td>${wallet.moneda.nombre} (${wallet.moneda.abreviatura})</td>
-                        <td>${wallet.cantidad} USD</td>
-                        <td>$${DarleFormatoNumeros(TotalUSDT)} ARS</td>`
+                        const precio = await CalcularPrecio(wallet.abreviatura);
+                            const subtotal = precio * wallet.total;
+                            TotalUSDT = subtotal;
+                            document.getElementById("Lista-USDT").innerHTML = `<td>${wallet.nombre} (${wallet.abreviatura})</td>
+                                                        <td>${wallet.total} USDT</td>
+                                                        <td>$${DarleFormatoNumeros(TotalUSDT)} ARS</td>`;
                     }
                     if(wallet.monedaId == 5){
-                        const precio = await CalcularPrecio(wallet.moneda.abreviatura);
-                        const subtotal = precio * wallet.cantidad;
+                        const precio = await CalcularPrecio(wallet.abreviatura);
+                        const subtotal = precio * wallet.total;
                         TotalUSDC += subtotal;
-                        document.getElementById("Lista-USDC").innerHTML = `<td>${wallet.moneda.nombre} (${wallet.moneda.abreviatura})</td>
-                            <td>${wallet.cantidad} USD</td>
-                            <td>$${DarleFormatoNumeros(TotalUSDC)} ARS</td>`
+                        document.getElementById("Lista-USDC").innerHTML = `<td>${wallet.nombre} (${wallet.abreviatura})</td>
+                                                                            <td>${wallet.total} USDC</td>
+                                                                            <td>$${DarleFormatoNumeros(TotalUSDC)} ARS</td>`
                         }
+                        if(wallet.monedaId == 6){    
+                            TotalARS = wallet.total;
+                            document.getElementById("Lista-ARS").innerHTML = `<td>${wallet.nombre} (${wallet.abreviatura})</td>
+                                <td>$${DarleFormatoNumeros(wallet.total)} ARS</td>
+                                <td>$${DarleFormatoNumeros(TotalARS)} ARS</td>`
+                            }
                     }
-                    Total = TotalBTC + TotalETH + TotalLTC + TotalUSDC + TotalUSDT
-                    document.getElementById("Info-Saldo").innerHTML = `$ ${DarleFormatoNumeros(Total)} ARS`;
+                    }
                     
-                } else {
-                    console.log("Error al obtener los datos");
-            }
-        } catch (error) {
+                    Total =TotalARS + TotalBTC + TotalETH + TotalLTC + TotalUSDC + TotalUSDT;
+                    document.getElementById("Info-Saldo").innerHTML = `$ ${DarleFormatoNumeros(Total)} ARS`;
+                    }
+        catch (error) {
             console.log("Error general:", error);
         }
     }

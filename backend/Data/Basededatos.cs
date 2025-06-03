@@ -8,7 +8,6 @@ namespace backend.Data
             {
             }
             public DbSet<Usuario> Usuarios { get; set; }
-            public DbSet<Wallet> Wallets { get; set; }
             public DbSet<Historial> Historiales { get; set; }
         public DbSet<Moneda> Monedas { get; set; }
     }
