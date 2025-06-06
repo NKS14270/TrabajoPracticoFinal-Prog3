@@ -1,10 +1,12 @@
 #Lista-Criptos {
-    background: linear-gradient(135deg, #232526 0%, #414345 100%);
+    background: linear-gradient(135deg, #1a1c1e 0%, #2d2f31 100%);
+    border-radius: 16px;
+    overflow: hidden;
 }
 
 #Lista-Criptos tr {
-    border-bottom: 1px solid rgba(255,255,255,0.10);
-    transition: background 0.2s;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    transition: all 0.3s ease;
 }
 
 #Lista-Criptos tr:last-child {
@@ -12,25 +14,26 @@
 }
 
 #Lista-Criptos td, #Lista-Criptos th {
-    padding: 16px 20px;
+    padding: 20px 24px;
     color: #fff;
-    font-family: 'Segoe UI', Arial, sans-serif;
-    font-size: 1.08rem;
-    letter-spacing: 0.5px;
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.3px;
     text-align: center;
 }
 
 #Lista-Criptos th {
-    background: rgba(0,0,0,0.18);
+    background: rgba(0,0,0,0.2);
     text-transform: uppercase;
     font-weight: 600;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    color: rgba(255,255,255,0.9);
 }
 
 #Lista-Criptos tr:hover {
-    background: rgba(255,255,255,0.07);
+    background: rgba(255,255,255,0.05);
+    transform: translateY(-1px);
 }
 
 table {
@@ -40,26 +43,77 @@ table {
     margin: 48px auto 0 auto;
     border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
     background: transparent;
-
 }
 
-#Info-Saldo{
-    font-size: 1.5em;
-    font-weight: bold;
-    margin-top: 5px;
+#Info-Saldo {
+    font-size: 2.1em;
+    font-weight: 700;
+    margin: 18px 0 10px 0;
+    color: #00d26a;
+    font-family: inherit;
+    letter-spacing: 0.02em;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.18);
+    border-radius: 10px;
+    padding: 12px 24px;
+    display: inline-block;
+    transition: background 0.2s, color 0.2s;
 }
-#saldo span{
-    font-size: 2em;
+
+#saldo span {
+    font-size: 2.7sem;
+    color: linear-gradient(#2d2f31 0%, #1a1c1e 100%);
     text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    margin-bottom: 4px;
+    display: block;
+    background: none;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    opacity: 0.85;
 }
 
+#BtnHistorial {
+    background: linear-gradient(135deg, #2d2f31 0%, #1a1c1e 100%);
+    border: none;
+    color: white;
+    padding: 12px 24px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1rem;
+    font-weight: 500;
+    margin: 16px 0;
+    cursor: pointer;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+#BtnHistorial:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+    background: linear-gradient(135deg, #1a1c1e 0%, #2d2f31 100%);
+}
 
 @media (max-width: 900px) {
     #Lista-Criptos td, #Lista-Criptos th {
-        font-size: 0.95rem;
-        padding: 12px 10px;
+        font-size: 1rem;
+        padding: 16px 20px;
+    }
+    #Info-Saldo {
+        font-size: 1.4em;
+    }
+    #saldo span {
+        font-size: 1.8em;
+    }
+}
+
+@media (max-width: 600px) {
+    #Lista-Criptos td, #Lista-Criptos th {
+        font-size: 0.9rem;
+        padding: 12px 16px;
     }
     #Info-Saldo {
         font-size: 1.2em;
@@ -67,17 +121,29 @@ table {
     #saldo span {
         font-size: 1.5em;
     }
+    #BtnHistorial {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
 }
 
 @media (max-width: 600px) {
-    #Lista-Criptos td, #Lista-Criptos th {
-        font-size: 0.85rem;
-        padding: 8px 4px;
+    table {
+        display: block;
+        width: 100vw;
+        overflow-x: auto;
+        margin: 24px 0 0 0;
     }
-    #Info-Saldo {
+    #Lista-Criptos th, #Lista-Criptos td {
+        padding: 10px 6px;
+        font-size: 0.98em;
+        min-width: 90px;
+        word-break: break-word;
+    }
+    #BtnHistorial {
+        width: 100%;
+        margin: 6px 0;
         font-size: 1em;
-    }
-    #saldo span {
-        font-size: 1.1em;
+        padding: 10px 0;
     }
 }

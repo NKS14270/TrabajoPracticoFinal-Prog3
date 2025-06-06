@@ -105,8 +105,6 @@ async function RealizarTransaccion(IdMoneda,cripto,montoARS,cantidadcriptos,Vent
                 const precioCripto = precios[cripto];
                 const usuarioId = localStorage.getItem("id");
 
-                console.log(Venta,montoARS,cantidadcriptos,precioCripto,usuarioId)
-
             if (!usuarioId) {
                 alert("No se encontró el ID del usuario. Por favor, inicie sesión nuevamente.");
                 window.location.href = "../index.html";

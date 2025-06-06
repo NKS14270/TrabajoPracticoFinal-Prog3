@@ -74,9 +74,6 @@ namespace backend.Controllers
                 .FirstOrDefault(u => u.Id == transaccion.UsuarioId);
             try
             {
-                if (venta)
-                {
-
                     if (venta)
                     {
                         if (transaccion.Cantidad >= 0.000000000000001)
@@ -127,7 +124,6 @@ namespace backend.Controllers
                             return BadRequest("La cantidad debe ser mayor a cero.");
                         }
                     }
-                }
                 else
                 {
                     if (transaccion.Cantidad > 0.000000000000001)
@@ -171,10 +167,6 @@ namespace backend.Controllers
 
                         _context.SaveChanges();
                         return Ok("Se ha vendido correctamente");
-                    }
-                    else
-                    {
-                        return BadRequest("La cantidad debe ser mayor a cero.");
                     }
                     if (transaccion.Cantidad > 0.000000000000001)
                     {
@@ -259,6 +251,17 @@ namespace backend.Controllers
 
 
         [HttpGet]
+
+        public IActionResult HistorialTransaccion(int idmoneda, int idusuario)
+        {
+            var lista = _context.Historiales
+                .Include(m => m.Moneda)
+                .Where(H => H.MonedaId == idmoneda && H.UsuarioId == idusuario)
+                .OrderByDescending(H => H.Fecha)
+                .ToList();
+
+            return Ok(lista);
+        }
         public IActionResult Moneda(string abreviatura) {
             var moneda = _context.Monedas
                 .FirstOrDefault(m => m.Abreviatura == abreviatura);

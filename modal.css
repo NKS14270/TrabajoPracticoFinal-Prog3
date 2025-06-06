@@ -1,0 +1,206 @@
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.modal.show {
+    display: flex;
+    opacity: 1;
+}
+
+.modal-content {
+    position: relative;
+    background: linear-gradient(135deg, #1a1c1e 0%, #2d2f31 100%);
+    margin: auto;
+    padding: 0;
+    width: 90%;
+    max-width: 600px;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    transform: translateY(-20px);
+    transition: transform 0.3s ease;
+}
+
+.modal.show .modal-content {
+    transform: translateY(0);
+}
+
+.modal-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h2 {
+    color: #fff;
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+}
+
+.close-modal {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.close-modal:hover {
+    color: #fff;
+}
+
+.modal-body {
+    padding: 24px;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+#historial-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#historial-list li {
+    padding: 16px;
+    margin-bottom: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    color: #fff;
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+#historial-list li:hover {
+    transform: translateX(5px);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+#historial-list li:last-child {
+    margin-bottom: 0;
+}
+
+/* Scrollbar styling for modal */
+.modal-body::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal-body::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+.modal-body::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+@media (max-width: 600px) {
+    .modal-content {
+        width: 99vw;
+        min-width: unset;
+        max-width: unset;
+        margin: 0;
+        border-radius: 0 0 16px 16px;
+        min-height: 60vh;
+    }
+    .modal-header {
+        padding: 14px 10px;
+    }
+    .modal-header h2 {
+        font-size: 1.05rem;
+    }
+    .modal-body {
+        padding: 10px 4px;
+        max-height: 60vh;
+    }
+    #historial-list li, .historial-item {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 6px;
+        font-size: 1.05em;
+        padding: 12px 8px;
+        margin-bottom: 10px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .historial-fecha, .historial-monto, .historial-cantidad {
+        text-align: left;
+        width: 100%;
+        font-size: 1em;
+        word-break: break-all;
+    }
+}
+
+.historial-item {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(40, 40, 40, 0.95);
+    border-radius: 10px;
+    margin-bottom: 12px;
+    padding: 14px 18px;
+    font-size: 1rem;
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+    gap: 10px;
+    transition: transform 0.2s, background 0.2s;
+}
+.historial-item:hover {
+    transform: translateX(5px);
+    background: rgba(255,255,255,0.08);
+}
+.historial-item:last-child {
+    margin-bottom: 0;
+}
+.historial-fecha {
+    flex: 2;
+    color: #bbb;
+    font-size: 0.98em;
+    min-width: 120px;
+}
+.historial-monto {
+    flex: 1.2;
+    font-weight: bold;
+    font-size: 1.1em;
+    text-align: right;
+}
+.historial-monto.positivo { color: #00d26a; }
+.historial-monto.negativo { color: #ff3b3b; }
+.historial-cantidad {
+    flex: 1.2;
+    text-align: right;
+    color: #e0e0e0;
+    font-size: 1em;
+}
+@media (max-width: 600px) {
+    .historial-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+        font-size: 1em;
+        padding: 10px 6px;
+    }
+    .historial-fecha, .historial-monto, .historial-cantidad {
+        width: 100%;
+        text-align: left;
+    }
+}

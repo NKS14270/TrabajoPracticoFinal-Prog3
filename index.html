@@ -6,6 +6,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="GlobalStyle.css">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="modal.css">
 </head>
 <body>
     <header>
@@ -31,40 +32,62 @@
                 <th>CRIPTO</th>
                 <th>CANTIDAD</th>
                 <th>PRECIO TOTAL</th>
+                <th></th>
             </tr>
             <tbody id="Lista-Criptos">
                 <tr id="Lista-BTC">
                     <td>Bitcoin (BTC)</td>
                     <td>0 BTC</td>
                     <td>$0 ARS</td>
+                    <td><a onclick="CargarHistorial(1)">Cargar Historial</a></td>
                 </tr>
                 <tr id="Lista-ETH">
                     <td>Ethereum (ETH)</td>
                     <td>0 ETH</td>
                     <td>$0 ARS</td>
+                    <td><a onclick="CargarHistorial(2)">Cargar Historial</a></td>
+
                 </tr>
             <tr id="Lista-LTC">
                 <td>Litecoin (LTC)</td>
                 <td>0 LTC</td>
                 <td>$0 ARS</td>
+                <td><a onclick="CargarHistorial(3)">Cargar Historial</a></td>
+
             </tr>
             <tr id="Lista-USDT">
                 <td>Tether usd (USDT)</td>
                 <td>0 USDT</td>
                 <td>$0 ARS</td>
+                <td><a onclick="CargarHistorial(4)">Cargar Historial</a></td>
+
             </tr>
             <tr id="Lista-USDC">
                 <td>Usd coin (USDT)</td>
                 <td>0 USDC</td>
                 <td>$0 ARS</td>
+                <td><a onclick="CargarHistorial(5)">Cargar Historial</a></td>
+
             </tr>
             <tr id="Lista-ARS">
                 <td>Pesos Argentinos (ARS)</td>
                 <td>0 ARS</td>
                 <td>$0 ARS</td>
+                <td><a onclick="CargarHistorial(6)">Cargar Historial</a></td>
             </tr>
         </tbody>
     </table>
+    <div id="modal-historial" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Historial de Transacciones</h2>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div id="historial-list"></div>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 <script src="scripts.js"></script>
