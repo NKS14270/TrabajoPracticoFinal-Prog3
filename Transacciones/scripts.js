@@ -81,9 +81,6 @@ async function procesarOperacion(){
     const cantidadcriptos = document.getElementById("montocripto").value;
     const venta = document.getElementById("tipoOperacion").value;
 
-
-
-    
 await fetch(`https://localhost:7044/Cripto/Moneda?Abreviatura=${cripto}`)
 .then(response => {
             if (!response.ok) {
@@ -93,13 +90,50 @@ await fetch(`https://localhost:7044/Cripto/Moneda?Abreviatura=${cripto}`)
         })
         .then(data => {       
             IdMoneda = data.id;
-            RealizarTransaccion(IdMoneda,cripto,montoARS,cantidadcriptos,venta)
+            // Mostrar modal de confirmación antes de realizar la transacción
+            mostrarModalConfirmacion({
+                cripto,
+                montoARS,
+                cantidadcriptos,
+                venta,
+                onConfirm: () => {
+                    RealizarTransaccion(IdMoneda, cripto, montoARS, cantidadcriptos, venta);
+                }
+            });
         })
         .catch(error => {
             console.error('Error:', error);
-        });
-       
+        });    
         }
+
+function mostrarModalConfirmacion({ cripto, montoARS, cantidadcriptos, venta, onConfirm }) {
+    const modal = document.getElementById("modalConfirmacion");
+    const modalContent = document.getElementById("modalContent");
+
+    modalContent.innerHTML = `
+        <p>¿Estás seguro de que deseas ${venta === "false" ? "comprar" : "vender"} ${cantidadcriptos} ${cripto} por ${montoARS} ARS?</p>
+        <div style="display: flex; gap: 10px; justify-content: center;">
+            <button id="confirmButton">Confirmar</button>
+            <button id="cancelButton">Cancelar</button>
+        </div>
+    `;
+
+    // Mostrar el modal
+    modal.style.display = "block";
+
+    // Configurar los botones después de agregarlos al DOM
+    const confirmButton = document.getElementById("confirmButton");
+    const cancelButton = document.getElementById("cancelButton");
+
+    confirmButton.onclick = () => {
+        onConfirm();
+        modal.style.display = "none";
+    };
+    
+    cancelButton.onclick = () => {
+        modal.style.display = "none";
+    };
+}
 
 async function RealizarTransaccion(IdMoneda,cripto,montoARS,cantidadcriptos,Venta){
                 const precioCripto = precios[cripto];
@@ -133,7 +167,13 @@ async function RealizarTransaccion(IdMoneda,cripto,montoARS,cantidadcriptos,Vent
                         return response.json();
                     })
                     .then (data => {
-                        alert(data)
+                        alert("Hola");
+                        if (Venta === false) {
+                            alert(`Compra realizada correctamente. Has comprado ${cantidadcriptos} ${cripto} por ${montoARS} ARS.`);
+                        }
+                        else {
+                            alert(`Venta realizada correctamente. Has vendido ${cantidadcriptos} ${cripto} por ${montoARS} ARS.`);
+                        }
                     })
                 }
                 else{

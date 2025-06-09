@@ -76,7 +76,7 @@ namespace backend.Controllers
             {
                     if (venta)
                     {
-                        if (transaccion.Cantidad >= 0.000000000000001)
+                        if (transaccion.Cantidad > 0)
                         {
                             var saldoPrevioMoneda = _context.Historiales
                                 .Where(h => h.UsuarioId == usuariotransaccion.Id && h.MonedaId == transaccion.MonedaId)
@@ -126,7 +126,7 @@ namespace backend.Controllers
                     }
                 else
                 {
-                    if (transaccion.Cantidad > 0.000000000000001)
+                    if (transaccion.Cantidad > 0)
                     {
                         var saldoPrevioMoneda = _context.Historiales
                             .Where(h => h.UsuarioId == usuariotransaccion.Id && h.MonedaId == transaccion.MonedaId)
@@ -149,7 +149,7 @@ namespace backend.Controllers
                                 return BadRequest("No tienes suficiente saldo en ARS para realizar la compra.");
                             }
                         }
-
+                        transaccion.Fecha = DateTime.Now;
                         _context.Historiales.Add(transaccion);
 
                         if (transaccion.MonedaId != 6)
@@ -168,64 +168,11 @@ namespace backend.Controllers
                         _context.SaveChanges();
                         return Ok("Se ha vendido correctamente");
                     }
-                    if (transaccion.Cantidad > 0.000000000000001)
-                    {
-                        var saldoPrevioMoneda = _context.Historiales
-                            .Where(h => h.UsuarioId == usuariotransaccion.Id && h.MonedaId == transaccion.MonedaId)
-                            .Sum(h => h.Cantidad);
-                        var saldoPrevioARS = _context.Historiales
-                            .Where(h => h.UsuarioId == usuariotransaccion.Id && h.MonedaId == 6)
-                            .Sum(h => h.Cantidad);
-
-                        if (transaccion.MonedaId == 6)
-                        {
-                            if (saldoPrevioARS < transaccion.Cantidad)
-                            {
-                                return BadRequest("No tienes suficiente saldo en ARS para realizar la compra.");
-                            }
-                        }
-                        else
-                        {
-                            if (saldoPrevioARS < transaccion.Cotizacion)
-                            {
-                                return BadRequest("No tienes suficiente saldo en ARS para realizar la compra.");
-                            }
-                        }
-
-                        _context.Historiales.Add(transaccion);
-                        _context.SaveChanges();
-                        return Ok(new { SaldoPrevioMoneda = saldoPrevioMoneda, SaldoPrevioARS = saldoPrevioARS });
-
-                        var totalPrevio = _context.Historiales
-                            .Where(h => h.UsuarioId == usuariotransaccion.Id && h.MonedaId == transaccion.MonedaId)
-                            .Sum(h => h.Cantidad);
-
-                        if (transaccion.MonedaId == 6)
-                        {
-                            if (totalPrevio < transaccion.Cantidad)
-                            {
-                                return BadRequest("No tienes suficiente saldo en ARS para realizar la compra.");
-                            }
-                        }
-                        else
-                        {
-                            if (totalPrevio < transaccion.Cotizacion)
-                            {
-                                return BadRequest("No tienes suficiente saldo para realizar la compra.");
-                            }
-                        }
-
-                        _context.Historiales.Add(transaccion);
-                        _context.SaveChanges();
-
-                        return Ok("Compra realizada correctamente");
-                    }
                     else
                     {
-                        return BadRequest("La cantidad debe ser mayor a cero.");
+                        return BadRequest("Error");
                     }
                 }
-                    return Ok();
             }
             catch (Exception)
             {

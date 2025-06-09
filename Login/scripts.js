@@ -70,7 +70,8 @@ function RegistrarUsuario(){
             })
             .then(response => {
                 if (!response.ok) {
-                    document.getElementById("errorlogin").innerHTML = response.status === 401
+                    document.getElementById("errorlogin").innerHTML = response.status === 400 ?
+                    "Error al crear el usuario. Por favor, intenta nuevamente." :
                     "Usuario Existente";
                     return null;
                 }

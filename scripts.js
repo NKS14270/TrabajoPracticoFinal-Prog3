@@ -2,7 +2,9 @@ window.onload = async function () {
     var usuario = localStorage.getItem("Usuario");
     if (!usuario) {
         window.location.href = "/Login/index.html";
-    } else{ IniciarActualizacionPrecios(usuario);}
+    } else{ 
+        document.getElementById("Info-Nombre").innerHTML = `Bienvenido Nuevamente <span id="name">${usuario}</span>`;
+        IniciarActualizacionPrecios(usuario);}
 }
 
 async function CargarPrecio(usuario) {
@@ -22,7 +24,6 @@ async function CargarPrecio(usuario) {
             const datos = await response.json();
             
             if (datos) {
-                document.getElementById("Info-Nombre").innerHTML = `Bienvenido Nuevamente ${usuario}`;
                 
                 let TotalBTC = 0;
                 let TotalETH = 0;
@@ -179,17 +180,18 @@ function CargarHistorial(id) {
             const Historial = document.getElementById("historial-list");
             let html = "";
             data.forEach(transaccion => {
-                if (transaccion.cantidad < 0) {
+                const decimales = ['ARS', 'USDT', 'USDC'].includes(transaccion.moneda.abreviatura) ? 2 : 12;
+                if (transaccion.cantidad < 0 ) {
                     html += `<li class="historial-item">
                                 <span class="historial-fecha">${formatearFecha(transaccion.fecha)}</span>
-                                <span class="historial-cantidad">${transaccion.cantidad} ${transaccion.moneda.abreviatura} </span>
+                                <span class="historial-cantidad">${transaccion.cantidad.toFixed(decimales)} ${transaccion.moneda.abreviatura} </span>
                                 <span class="historial-monto negativo">$${transaccion.cotizacion} ARS</span>
                             </li>`
                 }
                 else{
                     html += `<li class="historial-item">
                                 <span class="historial-fecha">${formatearFecha(transaccion.fecha)}</span>
-                                <span class="historial-cantidad">${transaccion.cantidad} ${transaccion.moneda.abreviatura} </span>
+                                <span class="historial-cantidad">${transaccion.cantidad.toFixed(decimales)} ${transaccion.moneda.abreviatura} </span>
                                 <span class="historial-monto positivo">$${transaccion.cotizacion} ARS</span>
                             </li>`
                 }    

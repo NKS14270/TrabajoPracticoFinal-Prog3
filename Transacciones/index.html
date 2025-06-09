@@ -4,19 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Transacciones</title>
-    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+    <link rel="stylesheet" href="../Style.css">
 </head>
 <body>
-    <nav>
-            <ul>
-                <a href="../index.html">Inicio</a>
-                <a href="../Criptos/index.html">Criptos</a>
-                <a href="./Transacciones/index.html">asd</a>
-                <a onclick="CerrarSesion()">Cerrar Sesion</a>
-            </ul>
-    </nav>
+    <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="../index.html">Cripto<span style="color: #00d26a;">Bank</span></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav me-auto">
+                <a class="nav-link active" aria-current="page" href="../index.html">Inicio</a>
+                <a class="nav-link" href="../Criptos/index.html">Criptos</a>
+            </div>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" style="cursor: pointer;" onclick="CerrarSesion()">Cerrar Sesion</a>
+            </div>
+        </div>
+    </div>
+</nav>
 
-    <div id="ContenedorPagina">
         <div class="container">
             <h2>Comprar o Vender Criptomonedas</h2>
             
@@ -40,13 +49,21 @@
             <label for="monto">Monto en cripto:</label>
             <input type="number" id="montocripto" readonly>
 
+            <p class="resultado" id="resultado"></p>
             <button onclick="procesarOperacion()">Confirmar operación</button>
-
-            <div class="resultado" id="resultado"></div>
             <button onclick="AgregarARS()">Agregar ARS</button>
         </div>
-    </div>
+
+        <div id="modalConfirmacion" class="modal" tabindex="1" style="display:none; position:fixed; z-index:1050; left:0; top:0; width:100vw; height:100vh; overflow:auto; background:rgba(0,0,0,0.5);">
+            <div class="modal-dialog" style="margin:10% auto; max-width:400px;">
+                <div class="modal-content" id="modalContent" style="padding:20px;">
+                    <!-- El contenido dinámico se inserta aquí -->
+                </div>
+            </div>
+        </div>
 </body>
 <script src="../cerrarsesion.js"></script>
 <script src="scripts.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+
 </html>
