@@ -85,7 +85,6 @@
 }
 
 #historial-list li:hover {
-    transform: translateX(5px);
     background: rgba(255, 255, 255, 0.08);
 }
 
@@ -165,7 +164,6 @@
     transition: transform 0.2s, background 0.2s;
 }
 .historial-item:hover {
-    transform: translateX(5px);
     background: rgba(255,255,255,0.08);
 }
 .historial-item:last-child {

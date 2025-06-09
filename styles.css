@@ -98,8 +98,16 @@ table {
 }
 
 @media (max-width: 900px) {
-    #Lista-Criptos td, #Lista-Criptos th {
-        font-size: 1rem;
+    #Lista-Criptos tr {
+        font-size: 0.75rem;
+        padding: 16px 20px;
+    }
+    #Lista-Criptos button {
+        padding: 10px 16px;
+        font-size: 0.9rem;
+    }
+    th {
+        font-size: 0.8rem;
         padding: 16px 20px;
     }
     #Info-Saldo {
@@ -108,6 +116,7 @@ table {
     #saldo span {
         font-size: 1.8em;
     }
+    
 }
 
 @media (max-width: 600px) {
