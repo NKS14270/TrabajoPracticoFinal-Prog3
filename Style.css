@@ -38,6 +38,11 @@ body {
     justify-content: flex-start;
     box-sizing: border-box;
 }
+.login-container button{
+    width: 100%;
+    max-width: 350px;
+    margin-top: 20px;
+}
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(40px) scale(0.98);}
     to { opacity: 1; transform: translateY(0) scale(1);}
@@ -347,5 +352,3 @@ input[type=\"number\"] {
     th, td { padding: 10px 6px; font-size: 0.98em; min-width: 90px; word-break: break-word; }
     button, .btn, #BtnHistorial { width: 100%; margin: 6px 0; font-size: 1em; padding: 10px 0; }
 }
-
-/* ====== ESTILOS PARTICULARES (puedes mover aquí los de cada página si lo necesitas) ====== */
