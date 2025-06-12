@@ -1,3 +1,11 @@
+window.onload = function () {
+    var usuario = localStorage.getItem("Usuario");
+    var id = localStorage.getItem("id");
+    if (!usuario || !id) {
+        window.location.href = "../Login/index.html";
+    }
+}
+
 document.getElementById("montoars").addEventListener("input", function () {
     const montoARS = parseFloat(this.value);
     const cripto = document.getElementById("criptomoneda").value;
